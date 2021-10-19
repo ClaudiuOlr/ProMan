@@ -1,4 +1,4 @@
-from flask import Flask, render_template, sessions, url_for
+from flask import Flask, render_template, session, url_for, flash, request, redirect
 from dotenv import load_dotenv
 from util import json_response
 from forms import LoginForm, RegistrationForm
@@ -21,7 +21,7 @@ def index():
     return render_template("index.html")
 
 
-@app.route("/boards", methods=["GET", "POST", "PUT", "DELTE"])
+@app.route("/boards", methods=["GET", "POST", "PUT", "DELETE"])
 @json_response
 def get_boards():
     """
