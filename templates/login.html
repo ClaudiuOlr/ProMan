@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>PRoMan || {{ title }}</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon/favicon.ico') }}">
+    <link rel="icon" type="image/png" sizes="32x32"
+        href="{{ url_for('static', filename='favicon/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="96x96"
+        href="{{ url_for('static', filename='favicon/favicon-96x96.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16"
+        href="{{ url_for('static', filename='favicon/favicon-16x16.png') }}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Contrail+One&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="static/css/main.css">
+    <script type="module" src="/static/js/forms_handler.js" defer></script>
+</head>
+
+<body>
+    <div class="form-container flex-column">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert">
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+        <div class="content-section">
+            <form action="" method="post">
+                {{ form.hidden_tag() }}
+                <div class="">
+                    <legend><i class="fas fa-sign-in-alt"></i> Log in</legend>
+                    <div class="form-group">
+                        {{ form.username.label(class='') }}
+                        {% if form.username.errors %}
+                        {{ form.username(class='') }}
+                        <div class="invalid-feedback">
+                            {% for error in form.username.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        {{ form.username(class='') }}
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        {{ form.password.label(class='') }}
+                        {% if form.password.errors %}
+                        {{ form.password(class='') }}
+                        <div class="invalid-feedback">
+                            {% for error in form.password.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        {{ form.password(class='') }}
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="submit-group">
+                    {{ form.submit(class='submit-btn') }}
+                    <button type="button" class="go-back-btn">Go Back</button>
+                </div>
+            </form>
+        </div>
+        <div class="account">
+            <small>
+                Need An Account? <a href="{{ url_for('register') }}">Sign Up Now!</a>
+            </small>
+        </div>
+    </div>
+</body>
+
+</html>
