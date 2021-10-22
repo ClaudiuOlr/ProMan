@@ -34,7 +34,7 @@ def get_boards():
         return data_manager.get_boards_data(user_id)
 
     if method == "POST":
-        board_details = request.json
+        board_details = request.json if request.is_json else request.form
         user_id = session.get("user_id")
 
         new_board = data_manager.add_new_board(
