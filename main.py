@@ -54,7 +54,9 @@ def get_boards():
     if method == "PUT":
         board_data = request.json if request.is_json else request.form
 
-        data_manager.update_title("boards", board_data.get("boardId"), board_data.get("title"))
+        data_manager.update_title(
+            "boards", board_data.get("boardId"), board_data.get("title")
+        )
         return {"status": 200}
 
     user_id = session.get("user_id")
@@ -70,9 +72,10 @@ def get_cards_for_board(board_id: int):
     """
     method = request.method
 
-    if method == "GET":
-        board_id = request.args.get("boardId")
-        return data_manager.get_cards_data(board_id)
+    if method == "DELETE":
+        card_id = request.json
+        data_manager.delete_record("cards", card_id)
+        return {"status": 200}
 
     if method == "POST":
         new_card_data = request.json
@@ -84,9 +87,8 @@ def get_cards_for_board(board_id: int):
         data_manager.update_title("cards", card_data["cardId"], card_data["title"])
         return {"status": 200}
 
-    card_id = request.json
-    data_manager.delete_record("cards", card_id)
-    return {"status": 200}
+    board_id = request.args.get("boardId")
+    return data_manager.get_cards_data(board_id)
 
 
 @app.route("/login", methods=["GET", "POST"])
