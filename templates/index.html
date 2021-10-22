@@ -27,7 +27,7 @@
         <nav class="header flex-row-start">
             <div class="title flex-row-start">
                 <h1>PRoMan</h1>
-                <a id="new-board-button" href="{{ '#' if session.username else '/login' }}" type="button">
+                <a id="new-board-button" href="{{ '#' if session.username else url_for('login') }}" type="button">
                     <i class="fas fa-clipboard"></i> New board</a>
                 <a id="refresh-button" href="#" type="button"><i class="fas fa-sync-alt"></i> Refresh</a>
             </div>
