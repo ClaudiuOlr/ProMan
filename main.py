@@ -31,15 +31,16 @@ def get_boards():
 
     if method == "GET":
         user_id = session.get("user_id")
-        if user_id:
-            return data_manager.get_boards_data(user_id)
         return data_manager.get_boards_data(user_id)
 
     if method == "POST":
         board_details = request.json
-        user_id = session["user_id"]
+        user_id = session.get("user_id")
+
         new_board = data_manager.add_new_board(
-            board_details["title"], board_details["board_private"], user_id
+            board_details.get("title"),
+            board_details.get("board_private"),
+            user_id,
         )
         return {
             "status": 200,
