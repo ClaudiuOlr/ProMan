@@ -63,15 +63,17 @@ def add_new_card(cursor: RealDictCursor, card_data: dict) -> dict:
 
     cursor.execute(
         """
-    INSERT INTO cards (title, board_id, status_id, order_number) 
-    VALUES (%(c_title)s, %(c_board_id)s, %(c_status)s, %(c_order_number)s)
+    INSERT INTO cards (id, board_id, title, status_id, order_number, archived) 
+    VALUES (%(c_id)s, %(c_board_id)s, %(c_title)s, %(c_status_id)s, %(c_order_number)s, %(c_archived)s)
     RETURNING id;
             """,
         {
+            "c_id": card_data["id"],
+            "c_board_id": card_data["board_id"],
             "c_title": card_data["title"],
-            "c_board_id": card_data["boardId"],
-            "c_status": card_data["statusId"],
-            "c_order_number": card_data["orderNumber"],
+            "c_status_id": card_data["status_id"],
+            "c_order_number": card_data["order_number"],
+            "c_archived": card_data["archived"],
         },
     )
 
