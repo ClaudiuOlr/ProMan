@@ -138,9 +138,7 @@ function getDraggedTaskAboveDestinationTask(column, y) {
         const offset = y - taskDiv.top - taskDiv.height / 2;
         if (offset < 0 && offset > closest.offset) {
             return {offset: offset, task: child };
-        } else {
-            return closest;
-        }
+        } else { return closest; }
     }, { offset: Number.NEGATIVE_INFINITY }).task;
 }
 

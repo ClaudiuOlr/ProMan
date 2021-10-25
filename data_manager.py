@@ -1,5 +1,4 @@
 from psycopg2.extras import RealDictCursor
-from psycopg2 import sql
 
 import database_common
 
@@ -8,11 +7,10 @@ import database_common
 def get_boards_data(cursor: RealDictCursor, user_id: int) -> list:
     """Get id of last added record"""
 
-    query = sql.SQL("SELECT * FROM boards WHERE board_private = false ")
-    if user_id:
-        query += sql.SQL("OR user_id = {id}").format(id=sql.Literal(user_id))
+    query = "SELECT * FROM boards WHERE board_private = false "
+    query += f"OR user_id = %(user_id)s" if user_id else ""
 
-    cursor.execute(query)
+    cursor.execute(query, {"user_id": user_id})
 
     return cursor.fetchall()
 
@@ -36,7 +34,10 @@ def get_cards_data(cursor: RealDictCursor, board_id: int) -> list:
 
 @database_common.connection_handler
 def add_new_board(
-    cursor: RealDictCursor, board_title: str, board_private: str, user_id: int
+    cursor: RealDictCursor,
+    board_title: str,
+    board_private: str,
+    user_id: int,
 ) -> dict:
     """Add new board to database"""
 
@@ -44,9 +45,13 @@ def add_new_board(
         """
                 INSERT INTO boards (title, board_private, user_id) 
                 VALUES (%(b_title)s, %(b_private)s, %(user_id)s)
-                RETURNING id, board_private
+                RETURNING id, board_private;
             """,
-        {"b_title": board_title, "b_private": board_private, "user_id": int(user_id)},
+        {
+            "b_title": board_title,
+            "b_private": board_private,
+            "user_id": int(user_id),
+        },
     )
 
     return cursor.fetchone()
@@ -60,7 +65,7 @@ def add_new_card(cursor: RealDictCursor, card_data: dict) -> dict:
         """
     INSERT INTO cards (title, board_id, status_id, order_number) 
     VALUES (%(c_title)s, %(c_board_id)s, %(c_status)s, %(c_order_number)s)
-    RETURNING id
+    RETURNING id;
             """,
         {
             "c_title": card_data["title"],
@@ -81,7 +86,7 @@ def update_card_position(cursor: RealDictCursor, card_position: dict):
         """
                 UPDATE cards
                 SET status_id = %(status_id)s, order_number = %(order_number)s
-                WHERE id = %(id)s
+                WHERE id = %(id)s;
                     """,
         {
             "status_id": card_position["statusId"],
@@ -94,15 +99,13 @@ def update_card_position(cursor: RealDictCursor, card_position: dict):
 @database_common.connection_handler
 def is_user_exist(cursor: RealDictCursor, datum):
     """Check if user exist in a database"""
-    base_query = sql.SQL("SELECT * FROM users ")
-    if "@" in datum:
-        where_clause = sql.SQL("WHERE email={email}").format(email=sql.Literal(datum))
-    else:
-        where_clause = sql.SQL("WHERE username={username}").format(
-            username=sql.Literal(datum)
-        )
 
-    cursor.execute(base_query + where_clause)
+    base_query = f"""
+        SELECT *
+        FROM users
+        WHERE {'email' if '@' in datum else 'username'} = %(datum)s;
+    """
+    cursor.execute(base_query, {"datum": datum})
 
     return cursor.fetchone()
 
@@ -111,43 +114,36 @@ def is_user_exist(cursor: RealDictCursor, datum):
 def add_new_user(cursor: RealDictCursor, user_data):
     """Add new user to a database"""
 
-    query = sql.SQL(
-        """INSERT INTO users (username, email, password) VALUES ( {username}, {email}, {password});"""
-    ).format(
-        username=sql.Literal(user_data["username"]),
-        email=sql.Literal(user_data["email"]),
-        password=sql.Literal(user_data["password"]),
+    query = """INSERT INTO users (username, email, password) VALUES (%(username)s,%(email)s,%(password)s);"""
+    cursor.execute(
+        query,
+        {
+            "username": user_data["username"],
+            "email": user_data["email"],
+            "password": user_data["password"],
+        },
     )
-    cursor.execute(query)
 
 
 @database_common.connection_handler
 def delete_record(cursor: RealDictCursor, table_name: str, record_id: int):
-    query = sql.SQL(
-        """
-        DELETE FROM {table_title} 
-        WHERE id = {r_id}
+    query = f"""
+        DELETE FROM {table_name} 
+        WHERE id = %(r_id)s;
     """
-    ).format(table_title=sql.Identifier(table_name), r_id=sql.Literal(record_id))
 
-    cursor.execute(query)
+    cursor.execute(query, {"r_id": record_id})
 
 
 @database_common.connection_handler
 def update_title(cursor: RealDictCursor, table_name: str, record_id: int, title: str):
-    query = sql.SQL(
-        """
-        UPDATE {table_title}
-        SET title = {title}
-        WHERE id = {r_id}
+    query = f"""
+        UPDATE {table_name}
+        SET title = %(title)s
+        WHERE id = %(r_id)s;
     """
-    ).format(
-        table_title=sql.Identifier(table_name),
-        r_id=sql.Literal(record_id),
-        title=sql.Literal(title),
-    )
 
-    cursor.execute(query)
+    cursor.execute(query, {"title": title, "r_id": record_id})
 
 
 @database_common.connection_handler
@@ -157,7 +153,7 @@ def add_new_column(cursor: RealDictCursor, column_data: dict):
         """
                 INSERT INTO statuses (title, board_id, order_number) 
                 VALUES (%(s_title)s, %(s_board_id)s, %(s_order_number)s)
-                RETURNING id
+                RETURNING id;
             """,
         {
             "s_title": column_data["title"],

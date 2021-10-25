@@ -1,8 +1,7 @@
 export let util = {
-
-    addButton: function (iconClasses, descriptionText = '') {
+    addButton: function (iconClasses, descriptionText = "") {
         const button = addButtonElement();
-        const icon = this.createElementWithClasses('i', iconClasses);
+        const icon = this.createElementWithClasses("i", iconClasses);
         button.appendChild(icon);
 
         if (descriptionText) {
@@ -25,18 +24,18 @@ export let util = {
         for (const child of listOfChildren) {
             parent.appendChild(child);
         }
-    }
-}
+    },
+};
 
 function addButtonElement() {
-    const button = document.createElement('a');
-    button.type = 'button';
+    const button = document.createElement("a");
+    button.type = "button";
 
     return button;
 }
 
 function addDescription(text) {
-    const buttonDescription = document.createElement('span');
+    const buttonDescription = document.createElement("span");
     buttonDescription.innerText = text;
 
     return buttonDescription;
