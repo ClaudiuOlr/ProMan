@@ -31,7 +31,7 @@ def get_boards():
 
     if method == "DELETE":
         board_id = request.json if request.is_json else request.form
-        data_manager.delete_record("boards", board_id.get("id"))
+        data_manager.delete_record("boards", board_id)
         return {"status": 200}
 
     if method == "POST":
