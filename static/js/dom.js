@@ -25,10 +25,8 @@ export let dom = {
                 "flex-column",
             ]);
             outerHtml.innerHTML = boardList;
-
             const boardsContainer = document.querySelector("#boards");
             boardsContainer.appendChild(outerHtml);
-
             generator.handleDetailButton();
             fillBoardContent(boards);
         });
@@ -71,7 +69,7 @@ export let dom = {
 
     displayNewColumn: function (data) {
         const cardsContainer = document.querySelector(
-            `div[containerboardid="${data.board_id}"]`
+            `div[data-containerboardId="${data.board_id}"]`
         );
         const newColumn = generator.createNewColumn(data);
 

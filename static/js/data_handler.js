@@ -19,7 +19,7 @@ export let dataHandler = {
             headers: new Headers({ "content-type": "application/json", }),
         })
             .then((response) => response.json())
-            .then((json_response) => callback(json_response));
+            .then((json_response) => callback(json_response)).catch((e) => {console.log(e)});
     },
 
     _api_put: function (url, data, callback) {
@@ -53,7 +53,7 @@ export let dataHandler = {
             callback(response);
         });
     },
-    
+
     getCardsByBoardId: function (boardId, callback) {
         this._api_get(`/cards?boardId=${boardId}`, (response) => {
             this._data["cards"] = response;

@@ -60,20 +60,18 @@ def add_new_board(
 @database_common.connection_handler
 def add_new_card(cursor: RealDictCursor, card_data: dict) -> dict:
     """Add new card to database"""
-
     cursor.execute(
         """
-    INSERT INTO cards (id, board_id, title, status_id, order_number, archived) 
-    VALUES (%(c_id)s, %(c_board_id)s, %(c_title)s, %(c_status_id)s, %(c_order_number)s, %(c_archived)s)
+    INSERT INTO cards (board_id, title, status_id, order_number, archived) 
+    VALUES (%(c_boardId)s, %(c_title)s, %(c_statusId)s, %(c_orderNumber)s, %(c_archived)s)
     RETURNING id;
             """,
         {
-            "c_id": card_data["id"],
-            "c_board_id": card_data["board_id"],
-            "c_title": card_data["title"],
-            "c_status_id": card_data["status_id"],
-            "c_order_number": card_data["order_number"],
-            "c_archived": card_data["archived"],
+            "c_boardId": card_data.get("boardId"),
+            "c_title": card_data.get("title"),
+            "c_statusId": card_data.get("statusId"),
+            "c_orderNumber": card_data.get("orderNumber"),
+            "c_archived": card_data.get("archived"),
         },
     )
 
@@ -87,13 +85,13 @@ def update_card_position(cursor: RealDictCursor, card_position: dict):
     cursor.execute(
         """
                 UPDATE cards
-                SET status_id = %(status_id)s, order_number = %(order_number)s
+                SET status_id = %(statusId)s, order_number = %(orderNumber)s
                 WHERE id = %(id)s;
                     """,
         {
-            "status_id": card_position["statusId"],
-            "order_number": card_position["orderNumber"],
-            "id": card_position["taskId"],
+            "statusId": card_position.get("statusId"),
+            "orderNumber": card_position.get("orderNumber"),
+            "id": card_position.get("taskId"),
         },
     )
 

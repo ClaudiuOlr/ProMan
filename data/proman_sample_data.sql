@@ -17,7 +17,7 @@ CREATE TABLE projects (
     id serial NOT NULL
 );
 
-DROP TABLE IF EXISTS public.boards;
+DROP TABLE IF EXISTS public.boards CASCADE;
 CREATE TABLE boards (
     id serial NOT NULL,
     title text,
@@ -25,7 +25,7 @@ CREATE TABLE boards (
     user_id integer
 );
 
-DROP TABLE IF EXISTS public.statuses;
+DROP TABLE IF EXISTS public.statuses CASCADE;
 CREATE TABLE statuses (
     id serial NOT NULL,
     order_number integer,
