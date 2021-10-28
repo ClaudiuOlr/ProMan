@@ -36,7 +36,7 @@ def get_cards_data(cursor: RealDictCursor, board_id: int) -> list:
 def add_new_board(
     cursor: RealDictCursor,
     board_title: str,
-    board_private: str,
+    board_private: bool,
     user_id: int,
 ) -> dict:
     """Add new board to database"""

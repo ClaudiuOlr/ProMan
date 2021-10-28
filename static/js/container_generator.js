@@ -86,10 +86,10 @@ export let generator = {
         detailBtn.forEach((button) => { generator.handleBoardDetailsEvent(button); });
     },
 
-    handleRefreshButton: function () {
-        const refreshButton = document.getElementById("refresh-button");
-        refreshButton.onclick = window.location.reload;
-    },
+    // handleRefreshButton: function () {
+    //     const refreshButton = document.getElementById("refresh-button");
+    //     refreshButton.onclick = window.location.reload;
+    // },
 
     assignCards: function (cards) {
         cards.forEach((card) => {

@@ -26,10 +26,10 @@
     <div class="wrapper">
         <nav class="header flex-row-start">
             <div class="title flex-row-start">
-                <h1>PRoMan</h1>
+                <h1>ProMan</h1>
                 <a id="new-board-button" href="{{ '#' if session.username else url_for('login') }}" type="button">
                     <i class="fas fa-clipboard"></i> New board</a>
-                <a id="refresh-button" href="#" type="button"><i class="fas fa-sync-alt"></i> Refresh</a>
+                <a id="refresh-button" href="#" onClick = window.location.reload() type="button"><i class="fas fa-sync-alt"></i> Refresh</a>
             </div>
             <div class="login-details flex-row-end">
                 {% if session.username %}

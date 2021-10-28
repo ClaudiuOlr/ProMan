@@ -8,7 +8,7 @@ import { util } from "./util.js";
 export let dom = {
     init: function () {
         dom.loadBoards();
-        generator.handleRefreshButton();
+        // generator.handleRefreshButton();
     },
 
     loadBoards: function () {
