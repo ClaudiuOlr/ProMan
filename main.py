@@ -68,7 +68,6 @@ def get_boards():
 def get_cards_for_board():
     """
     All cards that belongs to a board
-    :param board_id: id of the parent board
     """
     method = request.method
 
@@ -79,7 +78,6 @@ def get_cards_for_board():
 
     if method == "POST":
         new_card_data = request.json
-        print(new_card_data)
         attributes = data_manager.add_new_card(new_card_data)
         return {"status": 200, "id": attributes.get("id")}
 
@@ -105,10 +103,10 @@ def login():
         ):
             session["username"] = form.username.data
             session["user_id"] = user["id"]
-            flash(f"{form.username.data} logged in")
+            flash(f"{form.username.data} logged in.")
             return redirect(url_for("index"))
 
-        flash("Login Unsuccessful. Please check username and password")
+        flash("Login Unsuccessful. Please check username and password.")
 
     return render_template("login.html", title="Login", form=form)
 
@@ -124,7 +122,7 @@ def register():
         }
 
         data_manager.add_new_user(user_data)
-        flash(f"Account for {form.username.data} created! You are now able to log in")
+        flash(f"Account for {form.username.data} created! You are now able to log in.")
         return redirect(url_for("login"))
 
     return render_template("register.html", title="Register", form=form)
@@ -134,7 +132,7 @@ def register():
 def logout():
     session.pop("username", None)
     session.clear()
-    flash("You are successfully log out")
+    flash("You have successfully logged out.")
     return redirect(url_for("index"))
 
 

@@ -69,7 +69,7 @@ export let dom = {
 
     displayNewColumn: function (data) {
         const cardsContainer = document.querySelector(
-            `div[data-containerboardId="${data.board_id}"]`
+            `div[containerboardId="${data.board_id}"]`
         );
         const newColumn = generator.createNewColumn(data);
 

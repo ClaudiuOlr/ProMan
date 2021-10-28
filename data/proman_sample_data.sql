@@ -70,7 +70,7 @@ ALTER TABLE ONLY boards
 ALTER TABLE ONLY statuses
     ADD CONSTRAINT fk_boards_id FOREIGN KEY (board_id) REFERENCES boards(id) ON DELETE CASCADE;
 
-INSERT INTO users VALUES (1, 'admin', 'admin@admin.pl', '$2b$12$x2Q2A0gWpGL3/0Kur4UBqeihA68Zs23mGBWAJ04CNXfwxHz7ZRfT2');
+INSERT INTO users VALUES (1, 'andrein4', 'a@gmail.com', '$2b$12$uM64oDdDXBFBkvLz6hNHv.4fx7dmqVS7j/rQ3PtckqO5P7ZA8XBg.');
 SELECT pg_catalog.setval('users_id_seq', 1, true);
 
 -- INSERT INTO boards VALUES(1, 'Board 1', false, 1);
