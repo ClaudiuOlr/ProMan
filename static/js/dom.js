@@ -52,7 +52,7 @@ export let dom = {
         );
         newBoardPromise.then((newBoard) => {
             const boardContainer = document.querySelector(".board-container");
-            boardContainer.insertAdjacentHTML("beforeend", newBoard);
+            boardContainer.insertAdjacentHTML("afterend", newBoard);
 
             generator.handleBoardDetailsEvent(generator.getLastButton());
             generator.initNewColumnsWithDragAndDrop(board_id);
@@ -72,10 +72,21 @@ export let dom = {
             `div[containerboardId="${data.board_id}"]`
         );
         const newColumn = generator.createNewColumn(data);
-
+        handleEditColumnEvents()
         cardsContainer.appendChild(newColumn);
     },
 };
+
+function handleEditColumnEvents() {  //not working
+    const textfields = document.getElementsByClassName("editable");
+    for(let i=0; i<textfields.length; i++){
+        textfields[i].addEventListener("keypress", function(e) {
+            if(this.innerHTML.length >= this.getAttribute("maxLength")){
+                e.preventDefault();
+                return false;
+        }
+    }, false);
+}}
 
 function fillBoardContent(boards) {
     for (let board of boards) {

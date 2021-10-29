@@ -180,7 +180,6 @@ export let generator = {
 
         cellElement.appendChild(titleElement);
         cellElement.appendChild(tasksElement);
-
         return cellElement;
     },
 };
@@ -191,7 +190,7 @@ function generateColumns(resolve, id) {
         for (let [columnIndex, column] of columns.entries()) {
             cardList += `
                 <div class='cell' status-id="${column.id}" status-order-number='${column.order_number}'>
-                    <h3>${column.title}</h3>
+                    <h3 contenteditable="true" class="editable" maxLength="15">${column.title}</h3>
                     <div class="tasks flex-column" cardId="${id}"></div>
                 </div>
                 `;

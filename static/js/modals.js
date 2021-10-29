@@ -145,6 +145,9 @@ function choseEvent(modalId) {
         case "new-column-modal":
             handleNewColumnEvents();
             break;
+        case "edit-column-modal":
+            handleEditColumnEvents();
+            break;
     }
 }
 
