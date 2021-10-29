@@ -167,7 +167,7 @@ function handleNewCardEvents() {
     hideModal("#new-card-modal");
 
     const newCardTitle = document.getElementById("card-title").value;
-    const newCardBoardId = Number(localStorage.getItem("activeBoard"));
+    const newCardBoardId = parseInt(localStorage.getItem("activeBoard"), 10);
     const column = document.querySelector(`div[cardid="${newCardBoardId}"]`);
     const statusId = parseInt(column.parentElement.getAttribute("status-id"));
     const orderNumber = column.children.length;
@@ -187,7 +187,7 @@ function handleEditBoardEvents() {
     hideModal("#edit-board-modal");
 
     const newBoardTitle = document.getElementById("edited-board-title").value;
-    const boardId = Number(localStorage.getItem("activeBoard"));
+    const boardId = parseInt(localStorage.getItem("activeBoard"), 10);
 
     const data = {
         title: newBoardTitle,
@@ -206,7 +206,7 @@ function handleEditCardEvents() {
     hideModal("#edit-card-modal");
 
     const newCardTitle = document.getElementById("edited-card-title").value;
-    const cardId = Number(localStorage.getItem("activeCard"));
+    const cardId = parseInt(localStorage.getItem("activeCard"), 10);
 
     const data = {
         title: newCardTitle,
@@ -225,7 +225,7 @@ function handleNewColumnEvents() {
     hideModal("#new-column-modal");
 
     const newColumnTitle = document.getElementById("column-title").value;
-    const newColumnBoardId = Number(localStorage.getItem("activeBoard"));
+    const newColumnBoardId = parseInt(localStorage.getItem("activeBoard"), 10);
     const columnContainerChildren = document.querySelector(
         `div[containerboardid="${newColumnBoardId}"]`
     ).children;

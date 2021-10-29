@@ -16,10 +16,13 @@ export let dataHandler = {
             credentials: "same-origin",
             body: JSON.stringify(data),
             cache: "no-cache",
-            headers: new Headers({ "content-type": "application/json", }),
+            headers: new Headers({ "content-type": "application/json" }),
         })
             .then((response) => response.json())
-            .then((json_response) => callback(json_response)).catch((e) => {console.log(e)});
+            .then((json_response) => callback(json_response))
+            .catch((e) => {
+                console.log(e);
+            });
     },
 
     _api_put: function (url, data, callback) {
@@ -28,7 +31,7 @@ export let dataHandler = {
             credentials: "same-origin",
             body: JSON.stringify(data),
             cache: "no-cache",
-            headers: new Headers({ "content-type": "application/json", }),
+            headers: new Headers({ "content-type": "application/json" }),
         })
             .then((response) => response.json())
             .then((json_response) => callback(json_response));
@@ -40,7 +43,7 @@ export let dataHandler = {
             credentials: "same-origin",
             body: JSON.stringify(data),
             cache: "no-cache",
-            headers: new Headers({ "content-type": "application/json", }),
+            headers: new Headers({ "content-type": "application/json" }),
         })
             .then((response) => response.json())
             .then((json_response) => callback(json_response));

@@ -46,7 +46,9 @@ export let generator = {
     generateBoardDetails: function (id, isNewBoard) {
         return new Promise((resolve) => {
             isNewBoard
-                ? this.generateDefaultColumns(resolve, id).then((r) => resolve())
+                ? this.generateDefaultColumns(resolve, id).then((r) =>
+                      resolve()
+                  )
                 : generateColumns(resolve, id);
         });
     },
@@ -71,29 +73,32 @@ export let generator = {
 
     getColumnsByBoardId: function (id) {
         return new Promise((resolve) => {
-            dataHandler.getColumnsByBoardsId(id, (response) => { resolve(response.columns); });
+            dataHandler.getColumnsByBoardsId(id, (response) => {
+                resolve(response.columns);
+            });
         });
     },
 
     createNewColumnPromise: function (columnData) {
         return new Promise((resolve) => {
-            dataHandler.createColumn(columnData, (response) => { resolve(response.id); });
+            dataHandler.createColumn(columnData, (response) => {
+                resolve(response.id);
+            });
         });
     },
 
     handleDetailButton: function () {
         const detailBtn = document.querySelectorAll(".detail-button");
-        detailBtn.forEach((button) => { generator.handleBoardDetailsEvent(button); });
+        detailBtn.forEach((button) => {
+            generator.handleBoardDetailsEvent(button);
+        });
     },
-
-    // handleRefreshButton: function () {
-    //     const refreshButton = document.getElementById("refresh-button");
-    //     refreshButton.onclick = window.location.reload;
-    // },
 
     assignCards: function (cards) {
         cards.forEach((card) => {
-            let column = document.querySelector( `.cell[status-id="${card.status_id}"] .tasks` );
+            let column = document.querySelector(
+                `.cell[data-status-id="${card.status_id}"] .tasks`
+            );
             const task = this.createNewTask(
                 card.id,
                 card.title,
@@ -110,7 +115,9 @@ export let generator = {
 
     initNewColumnsWithDragAndDrop: function (board_id) {
         initColumns(
-            document.querySelectorAll(`div[containerBoardId="${board_id}"] .tasks`)
+            document.querySelectorAll(
+                `div[containerBoardId="${board_id}"] .tasks`
+            )
         );
     },
 
@@ -144,7 +151,8 @@ export let generator = {
     },
 
     handleBoardDetailsEvent: function (button) {
-        button.addEventListener("click", function () {
+        button.addEventListener("click", function (e) {
+            e.preventDefault();
             button.getAttribute("boardId");
             const cardsContainer =
                 button.parentElement.parentElement.nextElementSibling;
@@ -158,7 +166,9 @@ export let generator = {
 
     createNewColumn: function (data) {
         const cellElement = util.createElementWithClasses("div", ["cell"]);
-        cellElement.setAttribute("status-id", data.status_id);
+        //  Replace all non-standard attributes with datasets
+        //  as per the below
+        cellElement.dataset.statusId = data.status_id;
         cellElement.setAttribute("status-order-number", data.order_number);
 
         const titleElement = util.createElementWithClasses("h3");
@@ -189,7 +199,7 @@ function generateColumns(resolve, id) {
     generator.getColumnsByBoardId(id).then((columns) => {
         for (let [columnIndex, column] of columns.entries()) {
             cardList += `
-                <div class='cell' status-id="${column.id}" status-order-number='${column.order_number}'>
+                <div class="cell" data-status-id="${column.id}" data-status-order-number="${column.order_number}">
                     <h3 contenteditable="true" class="editable" maxLength="15">${column.title}</h3>
                     <div class="tasks flex-column" cardId="${id}"></div>
                 </div>
@@ -203,6 +213,7 @@ function generateColumns(resolve, id) {
 
 function stylePrivateBoard(board_details, board_id) {
     if (board_details.board_private) {
+        //  dataset
         const li = document.querySelector(`li[boardId="${board_id}"]`);
         const cards = document.querySelectorAll(
             `div[containerBoardId="${board_id}"] .cell h3`
@@ -242,6 +253,7 @@ function generateBoardList(resolve, boardList, boards) {
 }
 
 function getColumn(columnData, statusId) {
+    //  dataset
     return `
             <div class='cell' status-id="${statusId}" status-order-number='${columnData.order_number}'>
                 <h3>${columnData.title}</h3>
@@ -251,6 +263,7 @@ function getColumn(columnData, statusId) {
 }
 
 function getBoardTemplate(title, board_private, id, boardDetails) {
+    //  dataset
     return `
             <li class="flex-row-start" boardId="${id}" boardPrivate="${board_private}">
                 <div class="title flex-row-start">

@@ -1,62 +1,56 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base_layout.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>ProMan</title>
-    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon/favicon.ico') }}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon/favicon-32x32.png') }}">
-    <link rel="icon" type="image/png" sizes="96x96" href="{{ url_for('static', filename='favicon/favicon-96x96.png') }}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='favicon/favicon-16x16.png') }}">
-    
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/modals.css') }}">
-    
-    <script type="module" src="{{ url_for('static', filename='js/board_handler.js') }}" defer></script>
-    <script type="module" src="{{ url_for('static', filename='js/card_handler.js') }}" defer></script>
-    <script type="module" src="{{ url_for('static', filename='js/main.js') }}" defer></script>
-    <script type="module" src="{{ url_for('static', filename='js/modals.js') }}" defer></script>
-    <script type="module" src="{{ url_for('static', filename='js/forms_handler.js') }}" defer></script>
-</head>
-
-<body>
-    <div class="wrapper">
-        <nav class="header flex-row-start">
-            <div class="title flex-row-start">
-                <h1>ProMan</h1>
-                <a id="new-board-button" href="{{ '#' if session.username else url_for('login') }}" type="button">
-                    <i class="fas fa-clipboard"></i> New board</a>
-                <a id="refresh-button" href="#" onClick = window.location.reload() type="button"><i class="fas fa-sync-alt"></i> Refresh</a>
-            </div>
-            <div class="login-details flex-row-end">
-                {% if session.username %}
-                <p class="logged">{{ session.username }} logged in</p>
-                <a class="btn-user" href="{{ url_for('logout') }}" type="button"><i class="fas fa-sign-out-alt"></i> Logout</a>
-                {% else %}
-                <a class="btn-user" href="{{ url_for('login') }}" type="button"><i class="fas fa-sign-in-alt"></i> Login</a>
-                <a class="btn-user" href="{{ url_for('register') }}" type="button"><i class="fas fa-user-plus"></i> Register</a>
-                {% endif %}
-            </div>
-        </nav>
-        <div class="message">
-            {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-            {% for category, message in messages %}
-            <div class="alert">
-                <a type="button" class="close">&times;</a>
-                {{ message }}
-            </div>
-            {% endfor %}
-            {% endif %}
-            {% endwith %}
+{% block content %}
+    <nav class="header flex-row-start">
+        <div class="title flex-row-start">
+            <h1>ProMan</h1>
+            <a
+                id="new-board-button"
+                href="{{ '#' if session.username else url_for('login') }}"
+                type="button"
+            >
+                <i class="fas fa-clipboard"></i> New board</a
+            >
+            <a id="refresh-button" href="#" type="button"
+                ><i class="fas fa-sync-alt"></i> Refresh</a
+            >
         </div>
-        <div id="boards"></div>
+        <div class="login-details flex-row-end">
+            {% if session.username %}
+            <p class="logged">{{ session.username }} logged in</p>
+            <a
+                class="btn-user"
+                href="{{ url_for('logout') }}"
+                type="button"
+                ><i class="fas fa-sign-out-alt"></i> Logout</a
+            >
+            {% else %}
+            <a
+                class="btn-user"
+                href="{{ url_for('login') }}"
+                type="button"
+                ><i class="fas fa-sign-in-alt"></i> Login</a
+            >
+            <a
+                class="btn-user"
+                href="{{ url_for('register') }}"
+                type="button"
+                ><i class="fas fa-user-plus"></i> Register</a
+            >
+            {% endif %}
+        </div>
+    </nav>
+    <div class="message">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert">
+                        <a type="button" class="close">&times;</a>
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
     </div>
-</body>
-
-{% include "footer.html" %}
-
-</html>
+    <div id="boards"></div>
+{% endblock %}

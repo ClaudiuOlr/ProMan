@@ -9,6 +9,7 @@ def get_boards_data(cursor: RealDictCursor, user_id: int) -> list:
 
     query = "SELECT * FROM boards WHERE board_private = false "
     query += f"OR user_id = %(user_id)s" if user_id else ""
+    query += ";"
 
     cursor.execute(query, {"user_id": user_id})
 
@@ -24,7 +25,7 @@ def get_cards_data(cursor: RealDictCursor, board_id: int) -> list:
                 SELECT *  
                 FROM cards
                 WHERE board_id = %(b_id)s
-                ORDER BY status_id, order_number
+                ORDER BY status_id, order_number;
             """,
         {"b_id": board_id},
     )

@@ -55,11 +55,13 @@ def get_boards():
         board_data = request.json if request.is_json else request.form
 
         data_manager.update_title(
-            "boards", board_data.get("boardId"), board_data.get("title")
+            "boards",
+            board_data.get("boardId"),
+            board_data.get("title"),
         )
         return {"status": 200}
 
-    user_id = session.get("user_id")
+    user_id = session.get("user_id", None)
     return data_manager.get_boards_data(user_id)
 
 
@@ -97,7 +99,7 @@ def login():
         user = data_manager.is_user_exist(form.username.data)
 
         if (
-            user is not None
+            user
             and form.username.data == user["username"]
             and registration.verify_password(form.password.data, user["password"])
         ):
@@ -130,7 +132,6 @@ def register():
 
 @app.route("/logout")
 def logout():
-    session.pop("username", None)
     session.clear()
     flash("You have successfully logged out.")
     return redirect(url_for("index"))
@@ -161,11 +162,6 @@ def statuses():
         column_data = request.json
         column_id = data_manager.add_new_column(column_data)
         return {"status": 200, "id": column_id["id"]}
-
-    # if method == "PUT":
-    #     column_data = request.json
-    #     data_manager.update_title("cards", column_data["columnId"], column_data["title"])
-    #     return {"status": 200}
 
     board_id = request.args.get("boardId")
     columns_data = data_manager.get_columns_by_board_id(board_id)

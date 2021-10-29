@@ -1,87 +1,62 @@
-<!doctype html>
-<html lang="en">
+{% extends "base_layout.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>ProMan</title>
-    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon/favicon.ico') }}">
-    <link rel="icon" type="image/png" sizes="32x32"
-        href="{{ url_for('static', filename='favicon/favicon-32x32.png') }}">
-    <link rel="icon" type="image/png" sizes="96x96"
-        href="{{ url_for('static', filename='favicon/favicon-96x96.png') }}">
-    <link rel="icon" type="image/png" sizes="16x16"
-        href="{{ url_for('static', filename='favicon/favicon-16x16.png') }}">
-
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/modals.css') }}">
-
-    <script type="module" src="{{ url_for('static', filename='js/board_handler.js') }}" defer></script>
-    <script type="module" src="{{ url_for('static', filename='js/card_handler.js') }}" defer></script>
-    <script type="module" src="{{ url_for('static', filename='js/main.js') }}" defer></script>
-    <script type="module" src="{{ url_for('static', filename='js/modals.js') }}" defer></script>
-    <script type="module" src="{{ url_for('static', filename='js/forms_handler.js') }}" defer></script>
-</head>
-
-<body>
+{% block content %}
     <div class="form-container flex-column">
         <div class="content-section">
-            <form action="" method="post">
+            <form action="{{ url_for('register') }}" method="post">
                 {{ form.hidden_tag() }}
-                <div class="">
-                    <legend class=""><i class="fas fa-user-plus"></i> Join Today</legend>
+                <div>
+                    <legend><i class="fas fa-user-plus"></i> Join Today</legend>
                     <div class="form-group">
                         {{ form.username.label(class='') }}
                         {% if form.username.errors %}
-                        {{ form.username(class='') }}
-                        <div class="invalid-feedback">
-                            {% for error in form.username.errors %}
-                            <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
+                            {{ form.username(class='') }}
+                            <div class="invalid-feedback">
+                                {% for error in form.username.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
                         {% else %}
-                        {{ form.username(class='') }}
+                            {{ form.username(class='') }}
                         {% endif %}
                     </div>
                     <div class="form-group">
                         {{ form.email.label(class='') }}
                         {% if form.email.errors %}
-                        {{ form.email(class='') }}
-                        <div class="invalid-feedback">
-                            {% for error in form.email.errors %}
-                            <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
+                            {{ form.email(class='') }}
+                            <div class="invalid-feedback">
+                                {% for error in form.email.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
                         {% else %}
-                        {{ form.email(class='') }}
+                         {{ form.email(class='') }}
                         {% endif %}
                     </div>
                     <div class="form-group">
                         {{ form.password.label(class='') }}
                         {% if form.password.errors %}
-                        {{ form.password(class='') }}
-                        <div class="invalid-feedback">
-                            {% for error in form.password.errors %}
-                            <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
+                            {{ form.password(class='') }}
+                            <div class="invalid-feedback">
+                                {% for error in form.password.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
                         {% else %}
-                        {{ form.password(class='') }}
+                            {{ form.password(class='') }}
                         {% endif %}
                     </div>
                     <div class="form-group">
                         {{ form.confirm_password.label(class='') }}
                         {% if form.confirm_password.errors %}
-                        {{ form.confirm_password(class='') }}
-                        <div class="invalid-feedback">
-                            {% for error in form.confirm_password.errors %}
-                            <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
+                            {{ form.confirm_password(class='') }}
+                            <div class="invalid-feedback">
+                                {% for error in form.confirm_password.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
                         {% else %}
-                        {{ form.confirm_password(class='') }}
+                            {{ form.confirm_password(class='') }}
                         {% endif %}
                     </div>
                 </div>
@@ -97,6 +72,5 @@
             </small>
         </div>
     </div>
-</body>
 
-</html>
+{% endblock %}
